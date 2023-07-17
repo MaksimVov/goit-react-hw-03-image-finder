@@ -70,15 +70,3 @@ export class App extends Component {
     );
   }
 }
-
-//  <ImageGallery
-//    children={images.map(({ webformatURL, largeImageURL, id, alt }) => (
-//      <ImageGalleryItem
-//        key={id}
-//        url={webformatURL}
-//        modalImg={largeImageURL}
-//        tags={alt}
-//        closeModal={this.closeModal}
-//      />
-//    ))}
-//  />;
