@@ -12,6 +12,5 @@ export const getImages = async (query, page) => {
     `/?key=${API_KEY}&q=${query}&page=${page}&per_page=${per_page}&image_type=${image_type}&orientation=${orientation}&safesearch=${safesearch}`
   );
 
-  console.log(data);
   return data;
 };
