@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Notiflix from 'notiflix';
 
 import { ImageGallery } from './imageGallery/ImageGallery';
-import { ImageGalleryItem } from './imageGalleryItem/ImageGalleryItem';
 import { Searchbar } from './searchbar/Searchbar';
 import { getImages } from 'services/getImages';
 import { Button } from './button/Button';
