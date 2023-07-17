@@ -18,7 +18,13 @@ export class App extends Component {
   };
 
   handleFormSubmit = async search => {
-    this.setState({ search, isEmpty: false, page: 1, images: [] });
+    this.setState({
+      search,
+      isEmpty: false,
+      page: 1,
+      images: [],
+      showBtn: false,
+    });
   };
 
   componentDidUpdate(_, prevState) {
@@ -26,7 +32,7 @@ export class App extends Component {
     if (prevState.search !== search || prevState.page !== page) {
       this.setState({ isLoading: true });
       getImages(search, page)
-        .then(({ photos, total_results }) => {
+        .then(({ hits: photos, totalHits: total_results }) => {
           if (photos.length === 0) {
             this.setState({ isEmpty: true });
             Notiflix.Notify.failure(
@@ -36,7 +42,7 @@ export class App extends Component {
           }
           this.setState(prevState => ({
             images: [...prevState.images, ...photos],
-            showBtn: page < Math.ceil(total_results / 15),
+            showBtn: page < Math.ceil(total_results / 12),
           }));
         })
         .catch(error => {
@@ -57,22 +63,22 @@ export class App extends Component {
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        {images && (
-          <ImageGallery
-            children={images.map(({ src, id, alt }) => (
-              <ImageGalleryItem
-                key={id}
-                url={src.large}
-                modalImg={src.medium}
-                tags={alt}
-                closeModal={this.closeModal}
-              />
-            ))}
-          />
-        )}
+        {images && <ImageGallery children={images} />}
         {showBtn && <Button onClick={this.handleClick} />}
         {isLoading ? Notiflix.Loading.standard() : Notiflix.Loading.remove()}
       </div>
     );
   }
 }
+
+//  <ImageGallery
+//    children={images.map(({ webformatURL, largeImageURL, id, alt }) => (
+//      <ImageGalleryItem
+//        key={id}
+//        url={webformatURL}
+//        modalImg={largeImageURL}
+//        tags={alt}
+//        closeModal={this.closeModal}
+//      />
+//    ))}
+//  />;

@@ -3,9 +3,14 @@ import styles from './Modal.module.css';
 
 export class Modal extends Component {
   handleClick = e => {
-    console.log(e);
     if (e.target === e.currentTarget) {
       this.props.closeModal();
+    }
+  };
+
+  handleKeyPress = e => {
+    if (e.key === 'Escape') {
+      this.props.handleCloseModal();
     }
   };
 

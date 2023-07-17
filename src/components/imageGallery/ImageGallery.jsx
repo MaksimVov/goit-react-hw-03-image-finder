@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './ImageGallery.module.css';
 import { Modal } from 'components/modal/Modal';
+import { ImageGalleryItem } from 'components/imageGalleryItem/ImageGalleryItem';
 
 export class ImageGallery extends Component {
   state = {
@@ -13,22 +14,8 @@ export class ImageGallery extends Component {
   };
 
   handleCloseModal = () => {
-    this.setState({ openModal: false, modalImageUrl: '' });
+    this.setState({ openModal: false, imageUrl: '' });
   };
-
-  handleKeyPress = event => {
-    if (event.key === 'Escape') {
-      this.handleCloseModal();
-    }
-  };
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyPress);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyPress);
-  }
 
   render() {
     const { children } = this.props;
@@ -37,18 +24,22 @@ export class ImageGallery extends Component {
     return (
       <div>
         <ul className={styles.ImageGallery}>
-          {React.Children.map(children, child =>
-            React.cloneElement(child, {
-              setOpenModal: this.handleOpenModal,
-            })
-          )}
+          {children.map(({ webformatURL, largeImageURL, id, alt }) => (
+            <ImageGalleryItem
+              key={id}
+              url={webformatURL}
+              modalImg={largeImageURL}
+              tags={alt}
+              handleOpenModal={this.handleOpenModal}
+            />
+          ))}
         </ul>
 
         {openModal && (
           <Modal
             imageUrl={imageUrl}
             closeModal={this.handleCloseModal}
-            handleKeyPress={this.handleKeyPress}
+            handleKeyPress={this.handleCloseModal}
           />
         )}
       </div>
